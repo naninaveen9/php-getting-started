@@ -11,7 +11,7 @@
 
 "require": {
   "ext-mbstring": "*",
-"ext-exif":"*"
+"ext-exif":"*",
 "ext-gd":" *"
 }
 }
