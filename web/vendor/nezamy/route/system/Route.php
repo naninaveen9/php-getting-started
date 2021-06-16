@@ -616,43 +616,7 @@ class Route
      * @param array $args
      * @return string
      * @throws \Exception
-     */
-    protected function callback($callback, array $args = [])
-    {
-        if (isset($callback)) {
-            if (is_callable($callback) && $callback instanceof \Closure) {
-                // Set new object and append the callback with some data.
-                $o = new \ArrayObject($args);
-                $o->app = App::instance();
-                $callback = $callback->bindTo($o);
-            } elseif (is_string($callback) && strpos($callback, '@') !== false) {
-                $fixcallback = explode('@', $callback, 2);
-                $this->Controller = $fixcallback[0];
 
-                if (is_callable(
-                    $callback = [$fixcallback[0], (isset($fixcallback[1]) ? $fixcallback[1] : 'index')]
-                )) {
-                    $this->Method = $callback[1];
-                } else {
-                    throw new \Exception("Callable error on {$callback[0]} -> {$callback[1]} !");
-                }
-            }
-
-            if (is_array($callback) && !is_object($callback[0])) {
-                $callback[0] = new $callback[0];
-            }
-
-            if (isset($args[0]) && $args[0] == $this->fullArg) {
-                array_shift($args);
-            }
-
-            // Finally, call the method.
-            return call_user_func_array($callback, $args);
-        }
-        return false;
-    }
-
-    /**
      * Magic call.
      *
      * @param string $method
