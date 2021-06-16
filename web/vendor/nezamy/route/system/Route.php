@@ -618,7 +618,7 @@ class Route
      * @throws \Exception
      */
    // protected function callback($callback, array $args = [])
-    {
+    //{
         if (isset($callback)) {
             if (is_callable($callback) && $callback instanceof \Closure) {
                 // Set new object and append the callback with some data.
@@ -650,7 +650,7 @@ class Route
             return call_user_func_array($callback, $args);
         }
         return false;
-    }
+    //}
 
     /**
      * Magic call.
