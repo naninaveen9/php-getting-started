@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item"><a href="{{  url('dashboard-languages') }}"></a>{{_("Languages")}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Translation")}}</li>
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row ">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <select class="form-control trans-lang-switch">
+                        {% for lang in languages %}
+                        <option value="{{lang.code}}"
+                            {% if lang.code == selected_lang %}selected{% endif %}
+                        >{{lang.name}}</option>
+                        {% endfor %}
+                    </select>{{lang_name}} &nbsp;{{_("Translation")}}
+                </h6>
+                <a target="_blank" href="{{  url('dashboard-rebuild-translate') }}" class="btn btn-primary btn-sm">{{_('Rebuild Translations')}}</a>
+            </div>
+            <div class="card-body card-language">
+                <form id="lang-translation">
+                    {{ csrf_token()|raw }}
+                    <input type="hidden" name="lang" value="{{selected_lang}}">
+                    {% for translation in lang_terms %}
+                    <div class="form-group row">
+                        <label for="translation" class="col-sm-5 col-form-label">{{translation.term}}</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="{{translation.term_id}}" value="{{translation.translation}}">
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button type="button" class="btn btn-primary update-translation" >
+                        {{_("Update")}}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

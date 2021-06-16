@@ -1,0 +1,166 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item">{{_("Settings")}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Chat Page")}}</li>
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-chatpage-settings">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Chat Page Settings")}}
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="chatpage-settings">
+                    {{ csrf_token()|raw }}
+                    <div class="form-group">
+                        <label for="max_message_length">{{_("Message Length")}}</label>
+                        <input type="number" class="form-control" id="max_message_length" name="max_message_length" value="{{SETTINGS.max_message_length|default('1000')}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="chat_notice_message">{{_("Chat page notice message")}}</label>
+                        <textarea name="chat_notice_message" id="chat_notice_message" class="form-control" rows="5" cols="80">{{SETTINGS.chat_notice_message|htmlspecialchars_decode|raw}}</textarea>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="chat_notice_class">{{_("Chat page notice style")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="chat_notice_class" id="chat_notice_class">
+                                <option value="success" {% if SETTINGS.chat_notice_class == "success" %}selected{% endif %} >Success</option>
+                                <option value="warning" {% if SETTINGS.chat_notice_class == "warning" %}selected{% endif %} >Warning</option>
+                                <option value="danger" {% if SETTINGS.chat_notice_class == "danger" %}selected{% endif %} >Danger</option>
+                                <option value="primary" {% if SETTINGS.chat_notice_class == "primary" %}selected{% endif %} >Primary</option>
+                                <option value="secondary" {% if SETTINGS.chat_notice_class == "secondary" %}selected{% endif %} >Secondary</option>
+                                <option value="info" {% if SETTINGS.chat_notice_class == "info" %}selected{% endif %} >Info</option>
+                                <option value="light" {% if SETTINGS.chat_notice_class == "light" %}selected{% endif %} >Light</option>
+                                <option value="dark" {% if SETTINGS.chat_notice_class == "dark" %}selected{% endif %} >Dark</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="display_name_format">{{_("Display name format")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="display_name_format" id="display_name_format">
+                                <option value="fullname" {% if SETTINGS.display_name_format == "fullname" %}selected{% endif %} >{{_("Full name")}}</option>
+                                <option value="username" {% if SETTINGS.display_name_format == "username" %}selected{% endif %} >{{_("Username")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="enable_gif">{{_("Enable GIF")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="enable_gif" id="enable_gif">
+                                <option value="1" {% if SETTINGS.enable_gif == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                                <option value="0" {% if SETTINGS.enable_gif == "0" %}selected{% endif %} >{{_("No")}}</option>
+                            </select>
+                            <a href="{{ url('dashboard-gif') }}"><small>{{_("View GIF Settings")}} <i class="fas fa-external-link-alt"></i></small></a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="enable_stickers">{{_("Enable Stickers")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="enable_stickers" id="enable_stickers">
+                                <option value="1" {% if SETTINGS.enable_stickers == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                                <option value="0" {% if SETTINGS.enable_stickers == "0" %}selected{% endif %} >{{_("No")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="enable_images">{{_("Enable Images")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="enable_images" id="enable_images">
+                                <option value="1" {% if SETTINGS.enable_images == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                                <option value="0" {% if SETTINGS.enable_images == "0" %}selected{% endif %} >{{_("No")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="enable_audioclip">{{_("Enable Audio Messages")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="enable_audioclip" id="enable_audioclip">
+                                <option value="0" {% if SETTINGS.enable_audioclip == "0" %}selected{% endif %} >{{_("No")}}</option>
+                                <option value="1" {% if SETTINGS.enable_audioclip == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="enable_files">{{_("Enable Files")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="enable_files" id="enable_files">
+                                <option value="0" {% if SETTINGS.enable_files == "0" %}selected{% endif %} >{{_("No")}}</option>
+                                <option value="1" {% if SETTINGS.enable_files == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group enable-filelist-area" {% if SETTINGS.enable_files == 0 %}style="display:none;"{% endif %}>
+                        <label for="enable_file_list">{{_('File Extenstion List')}}</label>
+                        <textarea name="enable_file_list" id="enable_file_list" class="form-control" rows="2" cols="80">{{SETTINGS.enable_file_list|default('.doc, .docs, .xls, .xlsx, .ppt, .pptx, .zip, .txt, image/*')}}</textarea>
+                        <small id="bad_words_help" class="form-text text-muted">
+                            {{_('File extenstion list must be comma separated list. Ex: .doc, .xls, .zip, .txt, image/*')}}
+                        </small>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="list_show_gender">{{_("Show gender icon in user list")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="list_show_gender" id="list_show_gender">
+                                <option value="1" {% if SETTINGS.list_show_gender == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                                <option value="0" {% if SETTINGS.list_show_gender == "0" %}selected{% endif %} >{{_("No")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="list_show_country">{{_("Show country flag in user list")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="list_show_country" id="list_show_country">
+                                <option value="1" {% if SETTINGS.list_show_country == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                                <option value="0" {% if SETTINGS.list_show_country == "0" %}selected{% endif %} >{{_("No")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="list_show_user_type">{{_("Show user type in user list")}}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="list_show_user_type" id="list_show_user_type">
+                                <option value="0" {% if SETTINGS.list_show_user_type == "0" %}selected{% endif %} >{{_("No")}}</option>
+                                <option value="1" {% if SETTINGS.list_show_user_type == "1" %}selected{% endif %} >{{_("Yes")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="sent_animation">{{_("Sent chat animation")}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="sent_animation" id="sent_animation" value="{{SETTINGS.sent_animation|default('animate__fadeIn animate__slow')}}">
+                            <small class="form-text text-muted">
+                                {{_('CSS class name from ')}}<a href="https://animate.style/" target="_blank">https://animate.style/</a>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="replies_animation">{{_("Receive chat animation")}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="replies_animation" id="replies_animation" value="{{SETTINGS.replies_animation|default('animate__fadeInLeft')}}">
+                            <small class="form-text text-muted">
+                                {{_('CSS class name from ')}}<a href="https://animate.style/" target="_blank">https://animate.style/</a>
+                            </small>
+                        </div>
+                    </div>
+
+
+
+
+                    <button type="button" class="btn btn-primary update-settings" value="chatpage-settings">{{_("Update")}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_('Dashboard')}}</a></li>
+    <li class="breadcrumb-item">{{_('Settings')}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_('Notification')}}</li>
+  </ol>
+</nav>
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-notification-settings">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Notification Settings")}}
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="notification-settings">
+                    {{ csrf_token()|raw }}
+
+                    <div class="form-group">
+                        <label for="push_notifications">{{_("Enable Push Notification")}}</label>
+                        <select class="form-control" id="push_notifications" name="push_notifications">
+                            <option value="0" {% if SETTINGS.push_notifications == 0 %}selected{% endif %}>{{_("No")}}</option>
+                            <option value="1" {% if SETTINGS.push_notifications == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                        </select>
+                    </div>
+                    <hr />
+                    <br />
+                    <span class="push-notification-area" {% if SETTINGS.push_notifications == 0 %}style="display:none;"{% endif %}>
+                        <div class="form-group">
+                            <label for="firebase_server_key">{{_("Firebase Server Key")}}</label>
+                            <textarea class="form-control" name="firebase_server_key" id="firebase_server_key" rows="4" cols="80">{{SETTINGS.firebase_server_key}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="firebase_messaging_sender_id">{{_("Firebase Messaging Sender ID")}}</label>
+                            <input type="text" class="form-control" id="firebase_messaging_sender_id" name="firebase_messaging_sender_id" value="{{SETTINGS.firebase_messaging_sender_id}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="firebase_api_key">{{_("Firebase Api Key")}}</label>
+                            <input type="text" class="form-control" id="firebase_api_key" name="firebase_api_key" value="{{SETTINGS.firebase_api_key}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="firebase_project_id">{{_("Firebase Project ID")}}</label>
+                            <input type="text" class="form-control" id="firebase_project_id" name="firebase_project_id" value="{{SETTINGS.firebase_project_id}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="firebase_app_id">{{_("Firebase App ID")}}</label>
+                            <input type="text" class="form-control" id="firebase_app_id" name="firebase_app_id" value="{{SETTINGS.firebase_app_id}}">
+                        </div>
+                    </span>
+                    <button type="button" class="btn btn-primary update-settings" value="notification-settings">{{_("Update")}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

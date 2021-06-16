@@ -1,0 +1,99 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Users")}}</li>
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row ">
+    <div class="col-md-12">
+        <div class="card card-room-list">
+            <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Members")}}
+                </h6>
+                <span>
+                    <input type="checkbox" name="" class="check_all" id="check_all"> <label for="check_all">{{_("Check All")}}</label>
+                    <button type="button" class="btn btn-danger delete-selected-user btn-xs">{{_("Delete Selected")}}</button> |
+                    <a href="{{  url('dashboard-user-add') }}" class="btn btn-primary btn-xs">{{_("Add New User")}}</a>
+                </span>
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form id="user-list" >
+                        {{ csrf_token()|raw }}
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="check_all" name=""></th>
+                                    <th>{{_("Avatar")}}</th>
+                                    <th>{{_("Name")}}</th>
+                                    <th>{{_("Username")}}</th>
+                                    <th>{{_("Email")}}</th>
+                                    <th>{{_("Type")}}</th>
+                                    <th>{{_("Status")}}</th>
+                                    <th width="25%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in user_list %}
+                                    <tr>
+                                        <td>
+                                            {% if USER.id != user.id %}
+                                            <input type="checkbox" class="user-selection" name="delete_user_list[]" id="{{user.id}}_user" value="{{user.id}}" >
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="user-avatar">
+                                                <img class="img-profile mr-2" src="{{user.avatar_url}}">
+                                            </div>
+                                        </td>
+                                        <td>{{user.first_name}} {{user.last_name}}</td>
+                                        <td>{{user.user_name}}</td>
+                                        <td>{{user.email}}</td>
+                                        <td>
+                                            {% if user.user_type == 1 %}
+                                                Admin
+                                            {% elseif user.user_type == 2 %}
+                                                Member
+                                            {% elseif user.user_type == 4 %}
+                                                Moderator
+                                            {% else %}
+                                                Guest
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if user.available_status == 1 %}
+                                                <span class="badge badge-primary">{{_("Active")}}</span>
+                                            {% else %}
+                                                <span class="badge badge-warning">{{_("Inactive")}}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-xs btn-success" href="{{  url('dashboard-user-view') }}?user={{user.id}}"  data-toggle="tooltip" data-placement="top" title='{{_("View User")}}'  >
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if USER.id != user.id %}
+                                            <a class="btn btn-danger btn-xs delete-user" href="javascript:void(0)" data-id="{{user.id}}_user" data-toggle="tooltip" data-placement="top" title='{{_("Delete User")}}'  >
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

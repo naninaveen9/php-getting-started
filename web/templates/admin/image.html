@@ -1,0 +1,145 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item">{{_("Settings")}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Images")}}</li>
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card card-image-settings">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Image Settings")}}
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="image-settings" enctype="multipart/form-data">
+                    {{ csrf_token()|raw }}
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="logo">{{_("Logo")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="logo" name="logo" value="{{SETTINGS.logo}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:130px & Height:30px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview" style="height:{{IMAGE_SIZE.logo.height}}px; width:{{IMAGE_SIZE.logo.width}}px">
+                                {% if SETTINGS.logo %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.logo}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="small_logo">{{_("Small Logo")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="small_logo" name="small_logo" value="{{SETTINGS.small_logo}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:50px & Height:50px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview " style="height:{{IMAGE_SIZE.small_logo.height}}px; width:{{IMAGE_SIZE.small_logo.width}}px">
+                                {% if SETTINGS.small_logo %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.small_logo}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="favicon">{{_("Favicon")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="favicon" name="favicon" value="{{SETTINGS.favicon}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:16px & Height:16px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview" style="height:{{IMAGE_SIZE.favicon.height}}px; width:{{IMAGE_SIZE.favicon.width}}px">
+                                {% if SETTINGS.favicon %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.favicon}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="home_page_image">{{_("Home Page Image")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="home_page_image" name="home_page_image" value="{{SETTINGS.home_page_image}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:510px & Height:345px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview">
+                                {% if SETTINGS.home_page_image %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.home_page_image}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="login_page_image">{{_("Login Page Image")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="login_page_image" name="login_page_image" value="{{SETTINGS.login_page_image}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:440px & Height:500px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview">
+                                {% if SETTINGS.login_page_image %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.login_page_image}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="register_page_image">{{_("Register Page Image")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="register_page_image" name="register_page_image" value="{{SETTINGS.register_page_image}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:440px & Height:500px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview">
+                                {% if SETTINGS.register_page_image %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.register_page_image}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="forget_password_page_image">{{_("Forget Password Page Image")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="forget_password_page_image" name="forget_password_page_image" value="{{SETTINGS.forget_password_page_image}}">
+                            <small><b>{{_("Optimim Size")}} -</b> Width:440px & Height:500px </small>
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview">
+                                {% if SETTINGS.forget_password_page_image %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.forget_password_page_image}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label for="default_ogimage">{{_("OG image")}}</label>
+                            <input type="file" class="form-control-file upload-setting-image" id="default_ogimage" name="default_ogimage" value="{{SETTINGS.default_ogimage}}">
+                        </div>
+                        <div class="col-3 d-flex align-self-center justify-content-center">
+                            <div class="setting-image-preview">
+                                {% if SETTINGS.default_ogimage %}
+                                    <img class="img-fluid" height="100%" src="{{MEDIA_URL}}/settings/{{SETTINGS.default_ogimage}}"  alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary update-settings" value="image-settings">{{_("Update")}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item">{{_("Settings")}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("General")}}</li>
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row ">
+    <div class="col-md-8">
+        <div class="card card-general-settings">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("General Settings")}}
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="general-settings">
+                    {{ csrf_token()|raw }}
+                    <div class="form-group">
+                        <label for="site_name">{{_("Site Name")}}</label>
+                        <input type="text" class="form-control" id="site_name" name="site_name" placeholder='{{_("Site Name")}}' value="{{SETTINGS.site_name}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="site_description">{{_('Site description')}}</label>
+                        <textarea name="site_description" id="site_description" class="form-control" rows="2" cols="80">{{SETTINGS.site_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="site_tagline">{{_("Site tagline")}}</label>
+                        <input type="text" class="form-control" id="site_tagline" name="site_tagline" placeholder='{{_("Site tagline")}}' value="{{SETTINGS.site_tagline}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="timezone">{{_("Tiemzone")}}</label>
+                        <select class="form-control select2" id="timezone" name="timezone">
+                            {{timezone_list|raw}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timezone">Default Language</label>
+                        <select class="form-control" id="default_lang" name="default_lang">
+                            {% for lang in lang_list %}
+                                <option value="{{lang.code}}"
+                                    {% if lang.code == SETTINGS.default_lang %}selected{% endif %}
+                                >{{lang.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="single_room_mode">{{_("Single Room Mode")}}</label>
+                            <select class="form-control" id="single_room_mode" name="single_room_mode">
+                                <option value="0" {% if SETTINGS.single_room_mode == 0 %}selected{% endif %}>{{_("Inactive")}}</option>
+                                <option value="1" {% if SETTINGS.single_room_mode == 1 %}selected{% endif %}>{{_("Active")}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 default-room-area"
+                            {% if SETTINGS.single_room_mode == 1 %}
+                                style="display:block;"
+                            {% else %}
+                                style="display:none;"
+                            {% endif %}
+                        >
+                            <label for="default_room_slug">Default Chat Room</label>
+                            <select class="form-control" id="default_room_slug" name="default_room_slug">
+                                {% for chatroom in chatroom_list %}
+                                    <option value="{{chatroom.slug}}"
+                                        {% if chatroom.slug == SETTINGS.default_room_slug %}selected{% endif %}
+                                    >{{chatroom.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="guest_mode">{{_("Enable Guest Mode?")}}</label>
+                            <select class="form-control" id="guest_mode" name="guest_mode">
+                                <option value="0" {% if SETTINGS.guest_mode == 0 %}selected{% endif %}>{{_("No")}}</option>
+                                <option value="1" {% if SETTINGS.guest_mode == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="guest_name_edit">{{_("Enable Guest Name Edit?")}}</label>
+                            <select class="form-control" id="guest_name_edit" name="guest_name_edit">
+                                <option value="0" {% if SETTINGS.guest_name_edit == 0 %}selected{% endif %}>{{_("No")}}</option>
+                                <option value="1" {% if SETTINGS.guest_name_edit == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="member_registration">{{_("Enable User Registration?")}}</label>
+                        <select class="form-control" id="member_registration" name="member_registration">
+                            <option value="1" {% if SETTINGS.member_registration == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                            <option value="0" {% if SETTINGS.member_registration == 0 %}selected{% endif %}>{{_("No")}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="enable_members_room">{{_("Let Members Create Rooms")}}</label>
+                        <select class="form-control" id="enable_members_room" name="enable_members_room">
+                            <option value="0" {% if SETTINGS.enable_members_room == 0 %}selected{% endif %}>{{_("No")}}</option>
+                            <option value="1" {% if SETTINGS.enable_members_room == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="enable_moderators_room">{{_("Let Moderator Create Rooms")}}</label>
+                        <select class="form-control" id="enable_moderators_room" name="enable_moderators_room">
+                            <option value="0" {% if SETTINGS.enable_moderators_room == 0 %}selected{% endif %}>{{_("No")}}</option>
+                            <option value="1" {% if SETTINGS.enable_moderators_room == 1 %}selected{% endif %}>{{_("Yes")}}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="cookie_consent_popup">{{_("Cookie Consent Popup")}}</label>
+                            <select class="form-control" id="cookie_consent_popup" name="cookie_consent_popup">
+                                <option value="0" {% if SETTINGS.cookie_consent_popup == 0 %}selected{% endif %}>{{_("Inactive")}}</option>
+                                <option value="1" {% if SETTINGS.cookie_consent_popup == 1 %}selected{% endif %}>{{_("Active")}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-8 cookie-message-area" {% if SETTINGS.cookie_consent_popup == 0 %}style="display:none;"{% endif %}>
+                            <label for="cookie_consent_message">{{_("Cookie Consent Message")}}</label>
+                            <input type="text" class="form-control" id="cookie_consent_message" name="cookie_consent_message" placeholder='{{_("Cookie Consent Message")}}' value="{{SETTINGS.cookie_consent_message}}">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary update-settings" value="general-settings">{{_("Update")}}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

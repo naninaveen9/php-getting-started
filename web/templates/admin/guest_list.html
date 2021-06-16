@@ -1,0 +1,67 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{_("Guests")}}</li>
+  </ol>
+</nav>
+
+
+<!-- Content Row -->
+<div class="row ">
+    <div class="col-md-12">
+        <div class="card card-room-list">
+            <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{_("Guest List")}}
+                </h6>
+                <span>
+                    <input type="checkbox" name="" class="check_all" id="check_all"> <label for="check_all">{{_("Check All")}}</label>
+                    <button type="button" class="btn btn-danger btn-xs delete-selected-user">{{_("Delete Selected")}}</button>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form id="user-list" >
+                        {{ csrf_token()|raw }}
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="check_all" name=""></th>
+                                    <th>{{_("Name")}}</th>
+                                    <th>{{_("Username")}}</th>
+                                    <th>{{_("Last Seen")}}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for guest in guest_list %}
+                                    <tr>
+                                        <td><input type="checkbox" class="user-selection" name="delete_user_list[]" id="{{guest.id}}_guest" value="{{guest.id}}" ></td>
+                                        <td>{{guest.first_name}}</td>
+                                        <td>{{guest.user_name}}</td>
+                                        <td>{{guest.last_seen}}</td>
+                                        <td>
+                                            <a class="btn btn-success btn-xs" href="{{  url('dashboard-user-view') }}?user={{guest.id}}"  data-toggle="tooltip" data-placement="top" title="View Guest"  >
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-xs delete-user" href="javascript:void(0)" data-id="{{guest.id}}_guest" data-toggle="tooltip" data-placement="top" title="Delete Guest"  >
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

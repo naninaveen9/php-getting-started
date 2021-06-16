@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{  url('dashboard') }}">{{_("Dashboard")}}</a></li>
+    <li class="breadcrumb-item"><a href="{{  url('dashboard-languages') }}">{{_("Languages")}}</a></li>
+    {% if language %}
+        <li class="breadcrumb-item active" aria-current="page">{{language.name}}</li>
+    {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{_("Add Languages")}}</li>
+    {% endif %}
+  </ol>
+</nav>
+
+<!-- Content Row -->
+<div class="row ">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    {{edit_type_name}} {{_("Language")}}
+                </h6>
+            </div>
+            <div class="card-body card-language">
+                <form id="language-form" >
+                    {{ csrf_token()|raw }}
+                    <div class="form-group">
+                        <label for="code">ISO 639-1 language Code</label>
+                        <input type="hidden" name="edit_type" value="{{edit_type}}">
+                        <input type="text" class="form-control"
+                            {% if edit_type == "update" %}readonly{% endif %}
+                         id="code" name="code" placeholder="Code" value="{{language.code}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">{{_("Name")}}</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{language.name}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">ISO 3166-1 alpha-2 Country Code</label>
+                        <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="{{language.country}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Language Direction</label>
+                        <select class="form-control" id="direction" name="direction">
+                            <option value="ltr" {{language.direction=='ltr'?'selected'}}>Left to Right (LTR)</option>
+                            <option value="rtl" {{language.direction=='rtl'?'selected'}}>Right to Left (RTL)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary update-language" >
+                        {% if edit_type == "update" %}
+                            {{_("Update")}}
+                        {% else %}
+                            {{_("Insert")}}
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
