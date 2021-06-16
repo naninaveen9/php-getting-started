@@ -617,7 +617,7 @@ class Route
      * @return string
      * @throws \Exception
      */
-    protected function callback($callback, array $args = [])
+   // protected function callback($callback, array $args = [])
     {
         if (isset($callback)) {
             if (is_callable($callback) && $callback instanceof \Closure) {
