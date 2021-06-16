@@ -1,15 +1,16 @@
 {
   "require" : {
-    "silex/silex": "^2.0.4",
+    "symfony/flex": "*",
     "monolog/monolog": "^1.22",
     "twig/twig": "^2.0",
     "symfony/twig-bridge": "^3",
 "ext-mbstring": "*",
 "ext-exif":"*",
-"ext-gd":" *"
+"ext-gd":" *",
+        "php": ">=5.4.0",
+        "nezamy/support": "1.0.*"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
   }
 }
-
