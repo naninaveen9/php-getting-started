@@ -22,10 +22,10 @@ if (file_exists(BASE_PATH.'config/settings.php')) {
     // Init database with settings
     app()->db = new MysqliDb (
             Array (
-                'host' => DB_HOST,
-                'username' => DB_USER,
-                'password' => DB_PASSWORD,
-                'db'=> DB_NAME,
+                'host' => us-cdbr-east-04.cleardb.com,
+                'username' => b370f414d7c0b6,
+                'password' => 93842e0a,
+                'db'=> heroku_bc962dbe345f80f,
                 'port' => 3306,
                 'prefix' => DB_PREFIX,
                 'charset' => 'utf8mb4')
