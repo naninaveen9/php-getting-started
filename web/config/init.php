@@ -27,7 +27,7 @@ if (file_exists(BASE_PATH.'config/settings.php')) {
                 'password' => 93842e0a,
                 'db'=> heroku_bc962dbe345f80f,
                 'port' => 3306,
-                'prefix' => DB_PREFIX,
+                'prefix' => cn,
                 'charset' => 'utf8mb4')
             );
 
